@@ -89,5 +89,173 @@ Visual Studio
 4.4控制
 说明控制该软件的运行的方法和控制信号，并说明这些控制信号的来源。
 
+#include <Windows.h>
+#include <WinNT.h>
+#include<iostream>
+#include<string>
+#include<string.h>
+#include<stdlib.h>
+#include <wchar.h>
+#include <stdio.h>
+#include<direct.h>
+wchar_t* wp = new wchar_t[9];
+wchar_t* name2 = new wchar_t[15];
+wchar_t* code2 = new wchar_t[15];
+wchar_t* address2 = new wchar_t[15];
+wchar_t* nianji2 = new wchar_t[15];
+wchar_t* faculty2 = new wchar_t[15];
+wchar_t* sum = new wchar_t[120];
+using namespace std;
+#define IDB_ONE		1000
+#define IDB_TWO		3302
+#define IDB_THREE	3303
+#define IDB_FOUR    3304
+#define IDB_FIVE    3305
+#define IDB_SIX     3306
+#define IDB_SEVEN   3307   //按钮ID
+#define IDB_EIGHT   3308
+#define IDB_NINE    3309
+#define IDB_TEN     3310
+#define IDB_TEN1    3311
+#define IDB_TEN2    3312
+#define IDB_TEN3    3313
+#define IDB_TEN4    3314
+#define IDB_TEN5    3315
+#define IDB_TEN6    3316
+#define IDB_TEN7    3317
+#define IDB_TEN8    3318
+#define IDB_TEN9    3319
+#define IDB_TEN10   3320
+#define IDB_TEN11   3321
+#define IDB_TEN12   3322
+#define IDB_TEN13   3323
+#define IDB_TEN14   3325
+#define IDB_TEN15   3326
+#define IDB_TEN16   3326
+#define IDB_TEN17   3327
+#define IDB_TEN18   3328
+#define IDB_TEN19   3329
+#define IDB_TEN20   3330
+#define IDB_TEN21   3331
+#define IDB_TEN22   3332
+#define IDB_TEN23   3333
+char xxx[] = "xxxx";
+char chan;
+int y;
+class student
+{
+public:
 
+	student()
+	{
+		code = 1111;
+		strcpy_s(name, xxx);
+		strcpy_s(address, xxx);
+		strcpy_s(faculty, xxx);
+		strcpy_s(name, xxx);
+		nianji = 0;    //构造函数，用于初始化
+	}
+	int code;         //学号
+	char name[11];         //姓名
+	char address[16];      //学籍
+	char faculty[15];      //院系
+	int nianji;         //年级
+}stu[10];
+
+
+class ids
+{
+public:
+	ids()
+	{
+		id = 0;
+		pass = 0;
+	}
+	int id;
+	int pass;
+}ids[100];
+int i;
+int code1;
+char name1[11];
+char address1[16];
+char faculty1[15];
+int nianji1;
+int id1;
+int pass1;
+
+PAINTSTRUCT ps;  //全局变量
+
+
+HWND CreateMain(LPCWSTR lpClassName, LPCWSTR lpWndName);
+HWND Createch(LPCWSTR lpClassName, LPCWSTR lpWndName);
+HWND Createc(LPCWSTR lpClassName, LPCWSTR lpWndName);
+
+void Display(HWND hWnd);
+void Message();
+
+LRESULT CALLBACK WindowProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam);
+LRESULT CALLBACK chuang(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam);
+LRESULT CALLBACK er(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam);
+LRESULT CALLBACK ok(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam);
+LRESULT CALLBACK ck(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam);
+LRESULT CALLBACK cw(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam);
+
+LPCWSTR lps_cl = L"MyApp";//类名
+LPCWSTR wd_text = L"学生信息管理";//窗口标题
+LPCWSTR lok = L"chuang";
+LPCWSTR lck = L"er";
+LPCWSTR lpl = L"ok";
+LPCWSTR lml = L"ck";
+LPCWSTR lkl = L"cw";
+HINSTANCE hg_app;//全局实例句柄
+
+int WINAPI wWinMain(HINSTANCE hThisApp,
+	HINSTANCE hPrevApp,
+	LPWSTR lpCmd,
+	int nShow)
+{
+	WNDCLASSEX wc = { };
+	wc.cbSize = sizeof(WNDCLASSEX);
+	wc.hbrBackground = (HBRUSH)COLOR_WINDOW;
+	wc.hInstance = hThisApp;
+	wc.lpfnWndProc = (WNDPROC)WindowProc;
+	wc.lpszClassName = lps_cl;
+	wc.style = CS_HREDRAW | CS_VREDRAW;
+	RegisterClassEx(&wc);
+	HWND hwnd1 = CreateWindowEx(WS_EX_WINDOWEDGE, lps_cl, wd_text, WS_OVERLAPPEDWINDOW,
+		600, 200, 800, 600, NULL, NULL, hThisApp, NULL);
+	if (hwnd1 == NULL)
+		return -1;
+	ShowWindow(hwnd1, nShow);
+	UpdateWindow(hwnd1);
+	hg_app = hThisApp;
+
+	MSG msg;
+	while (GetMessage(&msg, NULL, 0, 0))
+	{
+		TranslateMessage(&msg);
+		DispatchMessage(&msg);
+	}
+
+	return 0;
+}
+HWND CreateMain(LPCWSTR lpClassName, LPCWSTR lpWndName)
+{
+	HWND hWnd = CreateWindowEx(0, lpClassName, lpWndName,
+		WS_OVERLAPPEDWINDOW, 300, 200, 300, 300, NULL, NULL, hg_app, NULL);
+	return hWnd;
+}
+HWND Createch(LPCWSTR lpClassName, LPCWSTR lpWndName)
+{
+	HWND hWnd = CreateWindowEx(0, lpClassName, lpWndName,
+		WS_OVERLAPPEDWINDOW, 500, 500, 340, 120, NULL, NULL, hg_app, NULL);
+	return hWnd;
+}
+
+HWND Createc(LPCWSTR lpClassName, LPCWSTR lpWndName)
+{
+	HWND hWnd = CreateWindowEx(0, lpClassName, lpWndName,
+		WS_OVERLAPPEDWINDOW, 500, 500, 500, 255, NULL, NULL, hg_app, NULL);
+	return hWnd;
+}
 
