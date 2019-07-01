@@ -1,1 +1,1747 @@
-4
+#include <Windows.h>
+#include <WinNT.h>
+#include<iostream>
+#include<string>
+#include<string.h>
+#include<stdlib.h>
+#include <wchar.h>
+#include <stdio.h>
+#include<direct.h>
+wchar_t* wp = new wchar_t[9];
+wchar_t* name2 = new wchar_t[15];
+wchar_t* code2 = new wchar_t[15];
+wchar_t* address2 = new wchar_t[15];
+wchar_t* nianji2 = new wchar_t[15];
+wchar_t* faculty2 = new wchar_t[15];
+wchar_t* sum = new wchar_t[120];
+using namespace std;
+#define IDB_ONE		1000//教师：查询
+#define IDB_TWO		3302//教师：添加
+#define IDB_THREE	3303//教师：删除
+#define IDB_FOUR    3304//教师：修改
+#define IDB_FIVE    3305//EDIT
+#define IDB_SIX     3306//教师：添加->按钮
+#define IDB_SEVEN   3307//   //按钮ID
+#define IDB_EIGHT   3308//教师：添加->控件
+#define IDB_NINE    3309//教师：添加->控件
+#define IDB_TEN     3310//教师：添加->控件
+#define IDB_TEN1    3311//教师：添加->控件
+#define IDB_TEN2    3312//教师：添加->控件
+#define IDB_TEN3    3313//教师：删除->控件
+#define IDB_TEN4    3314//教师：删除->控件
+#define IDB_TEN5    3315//教师：修改->控件
+#define IDB_TEN6    3316//教师：修改->控件
+#define IDB_TEN7    3317//教师：修改->控件
+#define IDB_TEN8    3318//教师：修改->控件
+#define IDB_TEN9    3319//教师：修改->控件
+#define IDB_TEN10   3320//教师：修改->控件
+#define IDB_TEN11   3321//教师：修改->控件
+#define IDB_TEN12   3322//教师：修改->控件
+#define IDB_TEN13   3323//按钮ID
+#define IDB_TEN14   3324//教师：筛选->控件
+#define IDB_TEN15   3325//教师：筛选->控件
+#define IDB_TEN16   3326//教师：筛选->控件
+#define IDB_TEN17   3327//教师：筛选->控件
+#define IDB_TEN18   3328
+#define IDB_TEN19   3329//about us
+#define IDB_TEN20   3330//登录->控件
+#define IDB_TEN21   3331//登录->控件
+#define IDB_TEN22   3332//登录->控件
+#define IDB_TEN23   3333//注册->按钮
+#define IDB_TEN24   3334//注册->控件
+#define IDB_TEN25   3335//注册->控件
+#define IDB_TEN26   3336//注册->控件
+#define IDB_TEN27   3337//注册->控件
+#define IDB_TEN28   3338//注册->控件
+#define IDB_TEN29   3339//注册->控件
+#define IDB_TEN30   3340//注册->控件
+#define IDB_TEN31   3341//学生：修改
+#define IDB_TEN32   3342//学生：修改
+#define IDB_TEN33   3343//学生：修改
+#define IDB_TEN34   3344//学生：修改
+#define IDB_TEN35   3345//学生：修改
+#define IDB_TEN36   3346//学生：修改—>姓名
+#define IDB_TEN37   3347//学生：修改—>姓名
+#define IDB_TEN38   3348//学生：修改—>ID
+#define IDB_TEN39   3349//学生：修改—>ID
+#define IDB_TEN40   3350//学生：修改—>密码
+#define IDB_TEN41   3351//学生：修改—>密码
+#define IDB_TEN42   3352//学生：修改—>地址
+#define IDB_TEN43   3353//学生：修改—>地址
+#define IDB_TEN44   3354
+#define IDB_TEN45   3355
+#define IDB_TEN46   3356//NEXT
+#define IDB_TEN47   3357//LAST
+char xxx[] = "xxxx";
+char chan;
+int y;
+int but=0;
+int page=0;
+class student
+{
+public:
+
+	student()
+	{
+		code = 1111;
+		strcpy_s(name, xxx);
+		strcpy_s(address, xxx);
+		strcpy_s(faculty, xxx);
+		strcpy_s(name, xxx);
+		nianji = 0;
+		pass = 0;//构造函数，用于初始化
+	}
+	int code;         //学号
+	char name[11];         //姓名
+	char address[16];      //学籍
+	char faculty[15];      //院系
+	int nianji;         //年级
+	int pass;
+}stu[100];
+static HWND ID_TEN36 = NULL;
+static HWND ID_TEN37 = NULL;
+
+
+int i;
+int code1;
+char name1[11];
+char address1[16];
+char faculty1[15];
+int nianji1;
+int pass1;
+int id;
+int side;
+int site;
+PAINTSTRUCT ps;  //全局变量
+
+
+HWND CreateMain(LPCWSTR lpClassName, LPCWSTR lpWndName);
+HWND Createch(LPCWSTR lpClassName, LPCWSTR lpWndName);
+HWND Createc(LPCWSTR lpClassName, LPCWSTR lpWndName);
+HWND Createcq(LPCWSTR lpClassName, LPCWSTR lpWndName);
+void Display(HWND hWnd);
+void Message();
+
+LRESULT CALLBACK WindowProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam);
+LRESULT CALLBACK chuang(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam);
+LRESULT CALLBACK er(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam);
+LRESULT CALLBACK ok(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam);
+LRESULT CALLBACK cw(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam);
+LRESULT CALLBACK name(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam);
+
+
+LPCWSTR lps_cl = L"MyApp";//类名
+LPCWSTR wd_text = L"manager";//窗口标题
+LPCWSTR lok = L"chuang";
+LPCWSTR lck = L"er";
+LPCWSTR lpl = L"ok";
+LPCWSTR lml = L"ck";
+LPCWSTR lkl = L"cw";
+HINSTANCE hg_app;//全局实例句柄
+HBITMAP bitmap;
+int WINAPI wWinMain(HINSTANCE hThisApp,
+	HINSTANCE hPrevApp,
+	LPWSTR lpCmd,
+	int nShow)
+{
+	WNDCLASSEX wc = { };
+	wc.cbSize = sizeof(WNDCLASSEX);
+	wc.hbrBackground = (HBRUSH)COLOR_WINDOW;
+	wc.hInstance = hThisApp;
+	wc.lpfnWndProc = (WNDPROC)WindowProc;
+	wc.lpszClassName = lps_cl;
+	wc.style = CS_HREDRAW | CS_VREDRAW;
+	RegisterClassEx(&wc);
+	HWND hwnd1 = CreateWindowEx(WS_EX_WINDOWEDGE, lps_cl, wd_text, WS_OVERLAPPEDWINDOW,
+		600, 200, 800, 600, NULL, NULL, hThisApp, NULL);
+	if (hwnd1 == NULL)
+		return -1;
+	ShowWindow(hwnd1, nShow);
+	UpdateWindow(hwnd1);
+	hg_app = hThisApp;
+
+	MSG msg;
+	while (GetMessage(&msg, NULL, 0, 0))
+	{
+		TranslateMessage(&msg);
+		DispatchMessage(&msg);
+	}
+
+	return 0;
+}
+LRESULT CALLBACK WindowProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
+{
+	static HWND ID_TEN20= NULL, ID_TEN21 = NULL, ID_TEN22 = NULL, ID_TEN23 = NULL;
+	switch (msg)
+	{
+	
+	case WM_PAINT:
+	{
+		PAINTSTRUCT ps;
+		HDC hdc = BeginPaint(hwnd, &ps);
+		// TODO: 在此处添加使用 hdc 的任何绘图代码...
+
+		HBITMAP hbmp;// 位图绘制对象句柄
+		HDC mdc = CreateCompatibleDC(hdc); // 创建兼容的缓存DC对象
+
+		// 加载图片到位图绘制对象hbmp中
+		hbmp = (HBITMAP)LoadImage(
+			NULL, // 模块实例句柄
+			L"./wocaonima.bmp", // 位图路径。注意双斜杠，单斜杠表示转义
+			IMAGE_BITMAP, // 图片类型
+			800, // 指定图片宽
+			600, // 指定图片高
+			LR_LOADFROMFILE // 从路径处加载图片
+		);
+
+		// 缓存DC（mdc）选择位图绘制对象（可以理解为将图片保存到mdc中）
+		SelectObject(mdc, hbmp);
+
+		// 将缓存DC中的位图复制到窗口DC上
+		BitBlt(
+			hdc, // 目的DC
+			0, 0, // 目的DC的 x，y 坐标
+			800, // 要粘贴的图片的宽
+			600, // 要粘贴的图片的高
+			mdc, // 缓存DC
+			0, 0, // 缓存DC的x，y坐标
+			SRCCOPY // 粘贴方式
+		);
+		DeleteObject(hbmp);
+		DeleteDC(mdc);
+		EndPaint(hwnd, &ps);
+		break;
+	}
+
+	case WM_DESTROY:
+	{
+
+		FILE* p;
+		fopen_s(&p, "./wdnmbd.txt", "w");
+		for (i = 0; i < 100; i++)
+		{
+			fprintf(p, "%s\n%s\n%s\n%d\n%d\n%d\n", stu[i].name, stu[i].address, stu[i].faculty, stu[i].nianji, stu[i].code,stu[i].pass);
+		}
+		fclose(p);//程序结束自动更新储存数据
+		delete wp;
+		delete name2;
+		delete sum;
+		delete code2;
+		delete faculty2;
+		delete nianji2;
+		delete address2;
+		PostQuitMessage(0);
+		return 0;
+	}
+	case WM_CREATE:
+	{
+		FILE* fp;
+		fopen_s(&fp, "./wdnmbd.txt", "r");
+		for (i = 0; i < 100; i++)
+		{
+			fscanf(fp, "%s%s%s%d%d%d", stu[i].name, stu[i].address, stu[i].faculty, &stu[i].nianji, &stu[i].code,&stu[i].pass);
+		}
+		fclose(fp);
+
+		ID_TEN20=CreateWindow(L"Edit", L"YOUR ID", WS_VISIBLE | WS_CHILD | BS_PUSHBUTTON,
+			440, 260, 200, 21, hwnd, (HMENU)IDB_TEN20, hg_app, NULL);
+		ID_TEN21=CreateWindow(L"Edit", L"YOUR PASSWORD", WS_VISIBLE | WS_CHILD | BS_PUSHBUTTON,
+			440, 310, 200, 21, hwnd, (HMENU)IDB_TEN21, hg_app, NULL);
+		ID_TEN22=CreateWindow(L"Button", L"LOG", WS_CHILD | WS_VISIBLE | BS_PUSHBUTTON,
+			460, 350, 53, 20, hwnd, (HMENU)IDB_TEN22, hg_app, NULL);
+		ID_TEN23=CreateWindow(L"Button", L"LOGON", WS_CHILD | WS_VISIBLE | BS_PUSHBUTTON,
+			560, 350, 53, 20, hwnd, (HMENU)IDB_TEN23, hg_app, NULL);
+	}
+	case WM_COMMAND:
+	{
+		switch (LOWORD(wParam))
+		{
+		case IDB_ONE:                                 //查询
+		{
+			GetWindowText(GetDlgItem(hwnd, 3305), wp, 6);
+			int b = _wtoi(wp);
+			if (b <= 10000) {
+				MessageBox(hwnd, L"ILLEGAL INPUT！", L"WARNNING！", MB_OK);
+			}
+			else if (b >= 100000 && code1 != 111111) {
+				MessageBox(hwnd, L"ILLEGAL INPUT！", L"WARNNING！", MB_OK);
+			}
+			else {
+				for (i = 0; i < 100; i++) {
+					if (stu[i].code == b) {
+						MultiByteToWideChar(CP_ACP, 0, stu[i].name, -1, name2, 15);
+						MultiByteToWideChar(CP_ACP, 0, stu[i].address, -1, address2, 15);
+						MultiByteToWideChar(CP_ACP, 0, stu[i].faculty, -1, faculty2, 15);
+						chan = (char)stu[i].code;
+						wsprintfW(code2, L"%d", stu[i].code);
+						wsprintfW(nianji2, L"%d", stu[i].nianji);
+						wcscpy(sum, L"ID：");
+						wcscat(sum, code2);
+						wcscat(sum, L" NAME：");
+						wcscat(sum, name2);
+						wcscat(sum, L" ADDRESS：");
+						wcscat(sum, address2);
+						wcscat(sum, L" FACULTY：");
+						wcscat(sum, faculty2);
+						wcscat(sum, L" CLASS：");
+						wcscat(sum, nianji2);
+						wprintf(L"%ls\n", sum);
+						break;
+					}
+				}
+				if (i < 100) {
+					MessageBox(hwnd, sum, L"QUERY WAS SUCCESSFUL！", MB_OK);
+				}
+				else {
+					MessageBox(hwnd, L"NO ONE FOUND THIS PERSON！", L"WARNNING！", MB_OK);
+				}
+			}
+			break;
+			/*
+			char a[4] = "amm";
+			wchar_t* wp = new wchar_t[4];
+			MultiByteToWideChar(CP_ACP, 0, a, -1, wp, 4);
+			SendMessage((HWND)lParam, WM_SETTEXT, (WPARAM)NULL, (LPARAM)L"查询");
+			MessageBox(hwnd, wp, wp, MB_OK);
+			break;
+			*/
+
+		}
+		case IDB_TWO:                           //添加
+		{
+
+
+			WNDCLASSEX wk = { };
+			wk.cbSize = sizeof(WNDCLASSEX);
+			wk.hbrBackground = (HBRUSH)COLOR_WINDOW;
+			wk.hInstance = hg_app;
+			wk.lpfnWndProc = (WNDPROC)chuang;
+			wk.lpszClassName = lok;
+			wk.style = CS_HREDRAW | CS_VREDRAW;
+			RegisterClassEx(&wk);
+
+			HWND hWnd = CreateMain(lok, L"window");
+			CreateWindow(lok, L"win",
+				WS_OVERLAPPEDWINDOW, 20, 25, 100, 50,
+				hWnd, NULL, hg_app, NULL);
+			Display(hWnd);
+			Message();
+			return 0;
+			break;
+		}
+		case IDB_THREE:                                     //删除
+
+		{
+			WNDCLASSEX wo = { };
+			wo.cbSize = sizeof(WNDCLASSEX);
+			wo.hbrBackground = (HBRUSH)COLOR_WINDOW;
+			wo.hInstance = hg_app;
+			wo.lpfnWndProc = (WNDPROC)er;
+			wo.lpszClassName = lck;
+			wo.style = CS_HREDRAW | CS_VREDRAW;
+			RegisterClassEx(&wo);
+
+			HWND hcnd = Createch(lck, L"window");
+			CreateWindow(lck, L"win",
+				WS_OVERLAPPEDWINDOW, 20, 25, 300, 200,
+				hcnd, NULL, hg_app, NULL);
+			Display(hcnd);
+			Message();
+			return 0;
+			break;
+		}
+		case IDB_FOUR:                                      //修改
+		{
+			WNDCLASSEX wq = { };
+			wq.cbSize = sizeof(WNDCLASSEX);
+			wq.hbrBackground = (HBRUSH)COLOR_WINDOW;
+			wq.hInstance = hg_app;
+			wq.lpfnWndProc = (WNDPROC)ok;
+			wq.lpszClassName = lpl;
+			wq.style = CS_HREDRAW | CS_VREDRAW;
+			RegisterClassEx(&wq);
+
+			HWND hqnd = Createc(lpl, L"window");
+			CreateWindow(lpl, L"win",
+				WS_OVERLAPPEDWINDOW, 20, 25, 300, 200,
+				hqnd, NULL, hg_app, NULL);
+			Display(hqnd);
+			Message();
+			return 0;
+			break;
+		}
+		case IDB_TEN17:
+		{
+			site = side = 0;
+			page = 0;
+			y = 215;
+			for (i = 0; i < 10; i++) {
+
+				CreateWindow(L"Static", L"                 ", SS_SIMPLE | WS_CHILD | WS_VISIBLE,
+					310, y, 60, 18, hwnd, NULL, hg_app, NULL);
+				CreateWindow(L"Static", L"                     ", SS_SIMPLE | WS_CHILD | WS_VISIBLE,
+					372, y, 70, 18, hwnd, NULL, hg_app, NULL);
+				CreateWindow(L"Static", L"                     ", SS_SIMPLE | WS_CHILD | WS_VISIBLE,
+					446, y, 140, 18, hwnd, NULL, hg_app, NULL);
+				CreateWindow(L"Static", L"                      ", SS_SIMPLE | WS_CHILD | WS_VISIBLE,
+					584, y, 80, 18, hwnd, NULL, hg_app, NULL);
+				CreateWindow(L"Static", L"        ", SS_SIMPLE | WS_CHILD | WS_VISIBLE,
+					686, y, 30, 18, hwnd, NULL, hg_app, NULL);
+				y = y + 23;
+
+			}//初始化界面
+
+
+			if (IsDlgButtonChecked(hwnd, IDB_TEN14) == BST_CHECKED)
+			{
+				but = 1;
+				page = 0;
+				y = 215;
+				GetWindowText(GetDlgItem(hwnd, IDB_FIVE), wp, 11);
+				nianji1 = _wtoi(wp);
+
+				for (i = 0; i < 10; 1) {
+					
+					if (stu[page].nianji == nianji1 && stu[page].nianji != 0 && stu[page].code < 100000 && stu[page].code > 10000) {
+						MultiByteToWideChar(CP_ACP, 0, stu[page].name, -1, name2, 15);
+						MultiByteToWideChar(CP_ACP, 0, stu[page].address, -1, address2, 15);
+						MultiByteToWideChar(CP_ACP, 0, stu[page].faculty, -1, faculty2, 15);
+						wsprintfW(code2, L"%d", stu[page].code);
+						wsprintfW(nianji2, L"%d", stu[page].nianji);
+
+						CreateWindow(L"Static", code2, SS_SIMPLE | WS_CHILD | WS_VISIBLE,
+							310, y, 60, 18, hwnd, NULL, hg_app, NULL);
+						CreateWindow(L"Static", name2, SS_SIMPLE | WS_CHILD | WS_VISIBLE,
+							372, y, 70, 18, hwnd, NULL, hg_app, NULL);
+						CreateWindow(L"Static", address2, SS_SIMPLE | WS_CHILD | WS_VISIBLE,
+							446, y, 140, 18, hwnd, NULL, hg_app, NULL);
+						CreateWindow(L"Static", faculty2, SS_SIMPLE | WS_CHILD | WS_VISIBLE,
+							584, y, 80, 18, hwnd, NULL, hg_app, NULL);
+						CreateWindow(L"Static", nianji2, SS_SIMPLE | WS_CHILD | WS_VISIBLE,
+							686, y, 30, 18, hwnd, NULL, hg_app, NULL);
+						y = y + 23;
+						i++;
+					}
+					page++;
+					if (page == 100)
+					{
+						break;
+					}
+				}
+			}
+			else if (IsDlgButtonChecked(hwnd, IDB_TEN15) == BST_CHECKED)
+			{
+				but = 2;
+				page = 0;
+				y = 215;
+				GetWindowText(GetDlgItem(hwnd, IDB_FIVE), wp, 11);
+				WideCharToMultiByte(CP_ACP, 0, wp, -1, faculty1, 11, NULL, NULL);
+
+				for (i = 0; i < 10; 1) {
+					
+					if (strcmp(faculty1, stu[page].faculty) == 0 && stu[page].nianji != 0&&stu[page].code<100000 && stu[page].code > 10000) {
+						MultiByteToWideChar(CP_ACP, 0, stu[page].name, -1, name2, 15);
+						MultiByteToWideChar(CP_ACP, 0, stu[page].address, -1, address2, 15);
+						MultiByteToWideChar(CP_ACP, 0, stu[page].faculty, -1, faculty2, 15);
+						wsprintfW(code2, L"%d", stu[page].code);
+						wsprintfW(nianji2, L"%d", stu[page].nianji);
+
+						CreateWindow(L"Static", code2, SS_SIMPLE | WS_CHILD | WS_VISIBLE,
+							310, y, 60, 18, hwnd, NULL, hg_app, NULL);
+						CreateWindow(L"Static", name2, SS_SIMPLE | WS_CHILD | WS_VISIBLE,
+							372, y, 70, 18, hwnd, NULL, hg_app, NULL);
+						CreateWindow(L"Static", address2, SS_SIMPLE | WS_CHILD | WS_VISIBLE,
+							446, y, 140, 18, hwnd, NULL, hg_app, NULL);
+						CreateWindow(L"Static", faculty2, SS_SIMPLE | WS_CHILD | WS_VISIBLE,
+							584, y, 80, 18, hwnd, NULL, hg_app, NULL);
+						CreateWindow(L"Static", nianji2, SS_SIMPLE | WS_CHILD | WS_VISIBLE,
+							686, y, 30, 18, hwnd, NULL, hg_app, NULL);
+						y = y + 23;
+						i++;
+					}
+					page++;
+					if (page == 100)
+					{
+						break;
+					}
+				}
+			}
+			else
+			{
+				but = 0;
+				y = 215;
+				page = 0;
+				for (i = 0; i < 10; 1) {
+					
+					if (stu[page].nianji != 0&&stu[page].code<100000 && stu[page].code > 10000) {
+						MultiByteToWideChar(CP_ACP, 0, stu[page].name, -1, name2, 15);
+						MultiByteToWideChar(CP_ACP, 0, stu[page].address, -1, address2, 15);
+						MultiByteToWideChar(CP_ACP, 0, stu[page].faculty, -1, faculty2, 15);
+						wsprintfW(code2, L"%d", stu[page].code);
+						wsprintfW(nianji2, L"%d", stu[page].nianji);
+
+						CreateWindow(L"Static", code2, SS_SIMPLE | WS_CHILD | WS_VISIBLE,
+							310, y, 60, 18, hwnd, NULL, hg_app, NULL);
+						CreateWindow(L"Static", name2, SS_SIMPLE | WS_CHILD | WS_VISIBLE,
+							372, y, 70, 18, hwnd, NULL, hg_app, NULL);
+						CreateWindow(L"Static", address2, SS_SIMPLE | WS_CHILD | WS_VISIBLE,
+							446, y, 140, 18, hwnd, NULL, hg_app, NULL);
+						CreateWindow(L"Static", faculty2, SS_SIMPLE | WS_CHILD | WS_VISIBLE,
+							584, y, 80, 18, hwnd, NULL, hg_app, NULL);
+						CreateWindow(L"Static", nianji2, SS_SIMPLE | WS_CHILD | WS_VISIBLE,
+							686, y, 30, 18, hwnd, NULL, hg_app, NULL);
+						y = y + 23;
+						i++;
+					}
+					page++;
+					if (page == 100)
+					{
+						break;
+					}
+				}
+			}
+			return 0;
+			break;
+		}
+		case IDB_TEN19:
+		{
+			MessageBox(hwnd, L"no body", L"NOTHING", MB_OK);
+			break;
+		}
+		case IDB_TEN22:
+		{
+			GetWindowText(GetDlgItem(hwnd, IDB_TEN20), wp, 11);
+			code1 = _wtoi(wp);
+			GetWindowText(GetDlgItem(hwnd, IDB_TEN21), wp, 11);
+			pass1 = _wtoi(wp);
+			if (code1 <= 10000) {
+				MessageBox(hwnd, L"ILLEGAL INPUT！", L"WARNNING！", MB_OK);
+			}
+			else {
+				for (i = 0; i < 100; i++) {
+					if (stu[i].code == code1 && stu[i].pass == pass1) {
+						id = code1;
+						MessageBox(hwnd, L"SUCCESSFUL LOGIN！", L"WARNNING！", MB_OK);
+						DestroyWindow(ID_TEN20);
+						DestroyWindow(ID_TEN21);
+						DestroyWindow(ID_TEN22);
+						DestroyWindow(ID_TEN23);
+						ID_TEN20 = NULL;
+						ID_TEN21 = NULL;
+						ID_TEN22 = NULL;
+						ID_TEN23 = NULL;
+						
+						if (id > 100000)
+						{
+							CreateWindow(L"Button", L"NEXT", WS_CHILD | WS_VISIBLE | BS_PUSHBUTTON,
+								550, 520, 53, 20, hwnd, (HMENU)IDB_TEN46, hg_app, NULL);
+							CreateWindow(L"Button", L"LAST", WS_CHILD | WS_VISIBLE | BS_PUSHBUTTON,
+								450, 520, 53, 20, hwnd, (HMENU)IDB_TEN47, hg_app, NULL);
+							CreateWindow(L"Button", L"INQUIRY", WS_CHILD | WS_VISIBLE | BS_PUSHBUTTON,
+								710, 110, 53, 20, hwnd, (HMENU)IDB_ONE, hg_app, NULL);
+							CreateWindow(L"Button", L"ADD", WS_VISIBLE | WS_CHILD | BS_PUSHBUTTON,
+								0, 210, 222, 60, hwnd, (HMENU)IDB_TWO, hg_app, NULL);
+							CreateWindow(L"Button", L"DELETE", WS_VISIBLE | WS_CHILD | BS_PUSHBUTTON,
+								0, 290, 222, 60, hwnd, (HMENU)IDB_THREE, hg_app, NULL);
+							CreateWindow(L"Button", L"MODIFY", WS_VISIBLE | WS_CHILD | BS_PUSHBUTTON,
+								0, 370, 222, 60, hwnd, (HMENU)IDB_FOUR, hg_app, NULL);
+							CreateWindow(L"Button", L"ABOUT US", WS_VISIBLE | WS_CHILD | BS_PUSHBUTTON,
+								0, 450, 222, 60, hwnd, (HMENU)IDB_TEN19, hg_app, NULL);
+							CreateWindow(L"Edit", L" ", WS_VISIBLE | WS_CHILD | BS_PUSHBUTTON,
+								295, 110, 400, 20, hwnd, (HMENU)IDB_FIVE, hg_app, NULL);
+							CreateWindow(L"Static", L"ID           NAME          ADDRESS                FACULTY       CLASS", SS_SIMPLE | WS_CHILD | WS_VISIBLE,
+								310, 190, 400, 18, hwnd, NULL, hg_app, NULL);
+							CreateWindow(L"Button", L"CLASS", WS_CHILD | WS_VISIBLE | BS_AUTORADIOBUTTON | WS_GROUP,
+								310, 150, 60, 16, hwnd, (HMENU)IDB_TEN14, hg_app, NULL);
+							CreateWindow(L"Button", L"FACULTY", WS_CHILD | WS_VISIBLE | BS_AUTORADIOBUTTON,
+								400, 150, 60, 16, hwnd, (HMENU)IDB_TEN15, hg_app, NULL);
+							CreateWindow(L"Button", L"SHOW ALL", WS_CHILD | WS_VISIBLE | BS_AUTORADIOBUTTON,
+								490, 150, 130, 16, hwnd, (HMENU)IDB_TEN16, hg_app, NULL);
+							CreateWindow(L"Button", L"SCREEN", WS_VISIBLE | WS_CHILD | BS_PUSHBUTTON,
+								620, 150, 55, 20, hwnd, (HMENU)IDB_TEN17, hg_app, NULL);
+							return 0;
+							break;
+						}
+
+						else
+						{
+							for (i = 0; i < 100; i++) {
+								if (id==stu[i].code) {
+									nianji1 = stu[i].nianji;
+									strcmp(faculty1, stu[i].faculty);
+									MultiByteToWideChar(CP_ACP, 0, stu[i].name, -1, name2, 15);
+									MultiByteToWideChar(CP_ACP, 0, stu[i].address, -1, address2, 15);
+									MultiByteToWideChar(CP_ACP, 0, stu[i].faculty, -1, faculty2, 15);
+									wsprintfW(code2, L"%d", stu[i].code);
+									wsprintfW(nianji2, L"%d", stu[i].nianji);
+									CreateWindow(L"Static", L"INFORMATION", SS_SIMPLE | WS_CHILD | WS_VISIBLE,
+										480, 300, 60, 18, hwnd, NULL, hg_app, NULL);
+									CreateWindow(L"Static", L"ID", SS_SIMPLE | WS_CHILD | WS_VISIBLE,
+										310, 340, 60, 18, hwnd, NULL, hg_app, NULL);
+									CreateWindow(L"Static", L"NAME", SS_SIMPLE | WS_CHILD | WS_VISIBLE,
+										372, 340, 70, 18, hwnd, NULL, hg_app, NULL);
+									CreateWindow(L"Static", L"ADDRESS", SS_SIMPLE | WS_CHILD | WS_VISIBLE,
+										446, 340, 140, 18, hwnd, NULL, hg_app, NULL);
+									CreateWindow(L"Static", L"FACULTY", SS_SIMPLE | WS_CHILD | WS_VISIBLE,
+										584, 340, 80, 18, hwnd, NULL, hg_app, NULL);
+									CreateWindow(L"Static", L"CLASS", SS_SIMPLE | WS_CHILD | WS_VISIBLE,
+										686, 340, 50, 18, hwnd, NULL, hg_app, NULL);
+
+									CreateWindow(L"Static", code2, SS_SIMPLE | WS_CHILD | WS_VISIBLE,
+										310, 360, 60, 18, hwnd, NULL, hg_app, NULL);
+									CreateWindow(L"Static", name2, SS_SIMPLE | WS_CHILD | WS_VISIBLE,
+										372, 360, 70, 18, hwnd, NULL, hg_app, NULL);
+									CreateWindow(L"Static", address2, SS_SIMPLE | WS_CHILD | WS_VISIBLE,
+										446, 360, 140, 18, hwnd, NULL, hg_app, NULL);
+									CreateWindow(L"Static", faculty2, SS_SIMPLE | WS_CHILD | WS_VISIBLE,
+										584, 360, 80, 18, hwnd, NULL, hg_app, NULL);
+									CreateWindow(L"Static", nianji2, SS_SIMPLE | WS_CHILD | WS_VISIBLE,
+										686, 360, 30, 18, hwnd, NULL, hg_app, NULL);
+									CreateWindow(L"Static", L"TEACHER:", SS_SIMPLE | WS_CHILD | WS_VISIBLE,
+										310, 390, 60, 18, hwnd, NULL, hg_app, NULL);
+									break;
+								}
+							}
+							int x = 372;
+							for (i = 0; i < 100; i++) {
+								if (stu[i].nianji == nianji1 && stu[i].code > 100000 ) {
+									MultiByteToWideChar(CP_ACP, 0, stu[i].name, -1, name2, 15);
+									CreateWindow(L"Static", name2, SS_SIMPLE | WS_CHILD | WS_VISIBLE,
+										x, 390, 60, 18, hwnd, NULL, hg_app, NULL);
+									x + 70;
+								}
+							}
+							CreateWindow(L"Button", L"MODIFY NAME", WS_CHILD | WS_VISIBLE | BS_PUSHBUTTON,
+								0, 200, 222, 60, hwnd, (HMENU)IDB_TEN31, hg_app, NULL);
+							CreateWindow(L"Button", L"MODIFY ID", WS_VISIBLE | WS_CHILD | BS_PUSHBUTTON,
+								0, 270, 222, 60, hwnd, (HMENU)IDB_TEN32, hg_app, NULL);
+							CreateWindow(L"Button", L"MODIFY PASSWORD", WS_VISIBLE | WS_CHILD | BS_PUSHBUTTON,
+								0, 340, 222, 60, hwnd, (HMENU)IDB_TEN33, hg_app, NULL);
+							CreateWindow(L"Button", L"MODIFY ADDRESS", WS_VISIBLE | WS_CHILD | BS_PUSHBUTTON,
+								0, 410, 222, 60, hwnd, (HMENU)IDB_TEN34, hg_app, NULL);
+							CreateWindow(L"Button", L"WAITING...", WS_VISIBLE | WS_CHILD | BS_PUSHBUTTON,
+								0, 480, 222, 60, hwnd, (HMENU)IDB_TEN35, hg_app, NULL);
+						}
+						return 0;
+						break;
+					}
+				}
+			}
+			return 0;
+			break;
+		}
+		case IDB_TEN47:                  //last page
+		{
+			if (page >= 20&&site!=0) {
+			if (but == 0 && page >= 0)
+			{
+				y = 215;
+				for (i = 0; i < 10; i++) {
+
+					CreateWindow(L"Static", L"                 ", SS_SIMPLE | WS_CHILD | WS_VISIBLE,
+						310, y, 60, 18, hwnd, NULL, hg_app, NULL);
+					CreateWindow(L"Static", L"                     ", SS_SIMPLE | WS_CHILD | WS_VISIBLE,
+						372, y, 70, 18, hwnd, NULL, hg_app, NULL);
+					CreateWindow(L"Static", L"                     ", SS_SIMPLE | WS_CHILD | WS_VISIBLE,
+						446, y, 140, 18, hwnd, NULL, hg_app, NULL);
+					CreateWindow(L"Static", L"                      ", SS_SIMPLE | WS_CHILD | WS_VISIBLE,
+						584, y, 80, 18, hwnd, NULL, hg_app, NULL);
+					CreateWindow(L"Static", L"        ", SS_SIMPLE | WS_CHILD | WS_VISIBLE,
+						686, y, 30, 18, hwnd, NULL, hg_app, NULL);
+					y = y + 23;
+
+				}//初始化界面
+				y = 445;
+				if (side != 0 && side != 10)
+				{
+					page = site;
+					for (i = 0; i < side; 1) {
+						if (page != 0) {
+							page--;
+						}
+						else {
+							break;
+						}
+						if (stu[page].nianji != 0 && stu[page].code < 100000 && stu[page].code > 10000 && page >= 0 && page < 100) {
+							i++;
+						}
+					}
+					side = 0;
+				}
+				else {
+					for (i = 0; i < 10; 1) {
+						if (page != 0) {
+							page--;
+						}
+						else {
+							break;
+						}
+						if (stu[page].nianji != 0 && stu[page].code < 100000 && stu[page].code > 10000 && page >= 0 && page < 100) {
+							i++;
+						}
+					}
+				}
+				for (i = 0; i < 10; 1) {
+					if (page != 0) {
+						page--;
+					}
+					else {
+						break;
+					}
+					if (stu[page].nianji != 0 && stu[page].code < 100000 && stu[page].code > 10000 &&page>=0&&page<100) {
+						y = y - 23;
+						MultiByteToWideChar(CP_ACP, 0, stu[page].name, -1, name2, 15);
+						MultiByteToWideChar(CP_ACP, 0, stu[page].address, -1, address2, 15);
+						MultiByteToWideChar(CP_ACP, 0, stu[page].faculty, -1, faculty2, 15);
+						wsprintfW(code2, L"%d", stu[page].code);
+						wsprintfW(nianji2, L"%d", stu[page].nianji);
+
+						CreateWindow(L"Static", code2, SS_SIMPLE | WS_CHILD | WS_VISIBLE,
+							310, y, 60, 18, hwnd, NULL, hg_app, NULL);
+						CreateWindow(L"Static", name2, SS_SIMPLE | WS_CHILD | WS_VISIBLE,
+							372, y, 70, 18, hwnd, NULL, hg_app, NULL);
+						CreateWindow(L"Static", address2, SS_SIMPLE | WS_CHILD | WS_VISIBLE,
+							446, y, 140, 18, hwnd, NULL, hg_app, NULL);
+						CreateWindow(L"Static", faculty2, SS_SIMPLE | WS_CHILD | WS_VISIBLE,
+							584, y, 80, 18, hwnd, NULL, hg_app, NULL);
+						CreateWindow(L"Static", nianji2, SS_SIMPLE | WS_CHILD | WS_VISIBLE,
+							686, y, 30, 18, hwnd, NULL, hg_app, NULL);
+						i++;
+					}
+				}
+				for (i = 0; i < 10; 1) {
+					page++;
+					if (stu[page].nianji != 0 && stu[page].code < 100000 && stu[page].code > 10000 && page >= 0 && page < 100) {
+						i++;
+					}
+				}
+			}
+			else if (but == 1 && page >= 0)
+			{
+				y = 215;
+				for (i = 0; i < 10; i++) {
+
+					CreateWindow(L"Static", L"                 ", SS_SIMPLE | WS_CHILD | WS_VISIBLE,
+						310, y, 60, 18, hwnd, NULL, hg_app, NULL);
+					CreateWindow(L"Static", L"                     ", SS_SIMPLE | WS_CHILD | WS_VISIBLE,
+						372, y, 70, 18, hwnd, NULL, hg_app, NULL);
+					CreateWindow(L"Static", L"                     ", SS_SIMPLE | WS_CHILD | WS_VISIBLE,
+						446, y, 140, 18, hwnd, NULL, hg_app, NULL);
+					CreateWindow(L"Static", L"                      ", SS_SIMPLE | WS_CHILD | WS_VISIBLE,
+						584, y, 80, 18, hwnd, NULL, hg_app, NULL);
+					CreateWindow(L"Static", L"        ", SS_SIMPLE | WS_CHILD | WS_VISIBLE,
+						686, y, 30, 18, hwnd, NULL, hg_app, NULL);
+					y = y + 23;
+
+				}//初始化界面
+				if (side != 0 && side != 10)
+				{
+					page = site;
+					for (i = 0; i < side; 1) {
+						if (page != 0) {
+							page--;
+						}
+						else {
+							break;
+						}
+						if (stu[page].nianji == nianji1 && stu[page].nianji != 0 && stu[page].code < 100000 
+							&& stu[page].code > 10000 && page >= 0 && page < 100) {
+							i++;
+						}
+					}
+					side = 0;
+				}
+				else {
+					for (i = 0; i < 10; 1) {
+						if (page != 0) {
+							page--;
+						}
+						else {
+							break;
+						}
+						if (stu[page].nianji == nianji1 && stu[page].nianji != 0 && stu[page].code < 100000 
+							&& stu[page].code > 10000 && page >= 0 && page < 100) {
+							i++;
+						}
+					}
+				}
+				y = 445;
+				for (i = 0; i < 10; 1) {
+					if (page != 0) {
+						page--;
+					}
+					else {
+						break;
+					}
+					if (stu[page].nianji == nianji1 && stu[page].nianji != 0 && stu[page].code < 100000 
+						&& stu[page].code > 10000 && page >= 0 && page < 100) {
+						y = y - 23;
+						MultiByteToWideChar(CP_ACP, 0, stu[page].name, -1, name2, 15);
+						MultiByteToWideChar(CP_ACP, 0, stu[page].address, -1, address2, 15);
+						MultiByteToWideChar(CP_ACP, 0, stu[page].faculty, -1, faculty2, 15);
+						wsprintfW(code2, L"%d", stu[page].code);
+						wsprintfW(nianji2, L"%d", stu[page].nianji);
+
+						CreateWindow(L"Static", code2, SS_SIMPLE | WS_CHILD | WS_VISIBLE,
+							310, y, 60, 18, hwnd, NULL, hg_app, NULL);
+						CreateWindow(L"Static", name2, SS_SIMPLE | WS_CHILD | WS_VISIBLE,
+							372, y, 70, 18, hwnd, NULL, hg_app, NULL);
+						CreateWindow(L"Static", address2, SS_SIMPLE | WS_CHILD | WS_VISIBLE,
+							446, y, 140, 18, hwnd, NULL, hg_app, NULL);
+						CreateWindow(L"Static", faculty2, SS_SIMPLE | WS_CHILD | WS_VISIBLE,
+							584, y, 80, 18, hwnd, NULL, hg_app, NULL);
+						CreateWindow(L"Static", nianji2, SS_SIMPLE | WS_CHILD | WS_VISIBLE,
+							686, y, 30, 18, hwnd, NULL, hg_app, NULL);
+						i++;
+					}
+				}
+				for (i = 0; i < 10; 1) {
+					page++;
+					if (stu[page].nianji == nianji1 && stu[page].nianji != 0 && stu[page].code < 100000 
+						&& stu[page].code > 10000 && page >= 0 && page < 100) {
+						i++;
+					}
+				}
+			}
+			else if (but == 2 && page >= 0)
+			{
+			y = 215;
+			for (i = 0; i < 10; i++) {
+
+				CreateWindow(L"Static", L"                 ", SS_SIMPLE | WS_CHILD | WS_VISIBLE,
+					310, y, 60, 18, hwnd, NULL, hg_app, NULL);
+				CreateWindow(L"Static", L"                     ", SS_SIMPLE | WS_CHILD | WS_VISIBLE,
+					372, y, 70, 18, hwnd, NULL, hg_app, NULL);
+				CreateWindow(L"Static", L"                     ", SS_SIMPLE | WS_CHILD | WS_VISIBLE,
+					446, y, 140, 18, hwnd, NULL, hg_app, NULL);
+				CreateWindow(L"Static", L"                      ", SS_SIMPLE | WS_CHILD | WS_VISIBLE,
+					584, y, 80, 18, hwnd, NULL, hg_app, NULL);
+				CreateWindow(L"Static", L"        ", SS_SIMPLE | WS_CHILD | WS_VISIBLE,
+					686, y, 30, 18, hwnd, NULL, hg_app, NULL);
+				y = y + 23;
+
+			}//初始化界面
+			if (side != 0 && side != 10)
+			{
+				page = site;
+				for (i = 0; i < side; 1) {
+					if (page != 0) {
+						page--;
+					}
+					else {
+						break;
+					}
+					if (strcmp(faculty1, stu[page].faculty) == 0 && stu[page].nianji != 0 && stu[page].code < 100000 
+						&& stu[page].code > 10000 && page >= 0 && page < 100) {
+						i++;
+					}
+				}
+				side = 0;
+			}
+			else {
+				for (i = 0; i < 10; 1) {
+					if (page != 0) {
+						page--;
+					}
+					else {
+						break;
+					}
+					if (strcmp(faculty1, stu[page].faculty) == 0 && stu[page].nianji != 0 && stu[page].code < 100000 
+						&& stu[page].code > 10000 && page >= 0 && page < 100) {
+						i++;
+					}
+				}
+			}
+			y = 445;
+			for (i = 0; i < 10; 1) {
+				if (page != 0) {
+					page--;
+				}
+				else {
+					break;
+				}
+				if (strcmp(faculty1, stu[page].faculty) == 0 && stu[page].nianji != 0 && stu[page].code < 100000
+					&& stu[page].code > 10000 && page >= 0 && page < 100) {
+					y = y - 23;
+					MultiByteToWideChar(CP_ACP, 0, stu[page].name, -1, name2, 15);
+					MultiByteToWideChar(CP_ACP, 0, stu[page].address, -1, address2, 15);
+					MultiByteToWideChar(CP_ACP, 0, stu[page].faculty, -1, faculty2, 15);
+					wsprintfW(code2, L"%d", stu[page].code);
+					wsprintfW(nianji2, L"%d", stu[page].nianji);
+
+					CreateWindow(L"Static", code2, SS_SIMPLE | WS_CHILD | WS_VISIBLE,
+						310, y, 60, 18, hwnd, NULL, hg_app, NULL);
+					CreateWindow(L"Static", name2, SS_SIMPLE | WS_CHILD | WS_VISIBLE,
+						372, y, 70, 18, hwnd, NULL, hg_app, NULL);
+					CreateWindow(L"Static", address2, SS_SIMPLE | WS_CHILD | WS_VISIBLE,
+						446, y, 140, 18, hwnd, NULL, hg_app, NULL);
+					CreateWindow(L"Static", faculty2, SS_SIMPLE | WS_CHILD | WS_VISIBLE,
+						584, y, 80, 18, hwnd, NULL, hg_app, NULL);
+					CreateWindow(L"Static", nianji2, SS_SIMPLE | WS_CHILD | WS_VISIBLE,
+						686, y, 30, 18, hwnd, NULL, hg_app, NULL);
+					i++;
+				}
+			}
+			for (i = 0; i < 10; 1) {
+				page++;
+				if (strcmp(faculty1, stu[page].faculty) == 0 && stu[page].nianji != 0 && stu[page].code < 100000 
+					&& stu[page].code > 10000 && page >= 0 && page < 100) {
+					i++;
+				}
+			}
+			}
+		}
+		break;
+		}
+		case IDB_TEN46:           //next page
+		{
+			if (but == 0&&page>=0&&page!=100)
+			{
+				y = 215;
+				for (i = 0; i < 10; i++) {
+
+					CreateWindow(L"Static", L"                 ", SS_SIMPLE | WS_CHILD | WS_VISIBLE,
+						310, y, 60, 18, hwnd, NULL, hg_app, NULL);
+					CreateWindow(L"Static", L"                     ", SS_SIMPLE | WS_CHILD | WS_VISIBLE,
+						372, y, 70, 18, hwnd, NULL, hg_app, NULL);
+					CreateWindow(L"Static", L"                     ", SS_SIMPLE | WS_CHILD | WS_VISIBLE,
+						446, y, 140, 18, hwnd, NULL, hg_app, NULL);
+					CreateWindow(L"Static", L"                      ", SS_SIMPLE | WS_CHILD | WS_VISIBLE,
+						584, y, 80, 18, hwnd, NULL, hg_app, NULL);
+					CreateWindow(L"Static", L"        ", SS_SIMPLE | WS_CHILD | WS_VISIBLE,
+						686, y, 30, 18, hwnd, NULL, hg_app, NULL);
+					y = y + 23;
+
+				}//初始化界面
+				y = 215;
+				for (i = 0; i <  10; 1) {
+					
+					if (stu[page].nianji != 0 && stu[page].code < 100000 && stu[page].code > 10000&&page<100) {
+						MultiByteToWideChar(CP_ACP, 0, stu[page].name, -1, name2, 15);
+						MultiByteToWideChar(CP_ACP, 0, stu[page].address, -1, address2, 15);
+						MultiByteToWideChar(CP_ACP, 0, stu[page].faculty, -1, faculty2, 15);
+						wsprintfW(code2, L"%d", stu[page].code);
+						wsprintfW(nianji2, L"%d", stu[page].nianji);
+
+						CreateWindow(L"Static", code2, SS_SIMPLE | WS_CHILD | WS_VISIBLE,
+							310, y, 60, 18, hwnd, NULL, hg_app, NULL);
+						CreateWindow(L"Static", name2, SS_SIMPLE | WS_CHILD | WS_VISIBLE,
+							372, y, 70, 18, hwnd, NULL, hg_app, NULL);
+						CreateWindow(L"Static", address2, SS_SIMPLE | WS_CHILD | WS_VISIBLE,
+							446, y, 140, 18, hwnd, NULL, hg_app, NULL);
+						CreateWindow(L"Static", faculty2, SS_SIMPLE | WS_CHILD | WS_VISIBLE,
+							584, y, 80, 18, hwnd, NULL, hg_app, NULL);
+						CreateWindow(L"Static", nianji2, SS_SIMPLE | WS_CHILD | WS_VISIBLE,
+							686, y, 30, 18, hwnd, NULL, hg_app, NULL);
+						y = y + 23;
+						i++;
+						side = i;//side条
+						site = page + 1;//site位
+					}
+					page++;
+					if (page == 100)
+					{
+						break;
+					}
+				}
+			}
+			else if (but == 1 && page >= 0&&page!=100)
+			{
+				y = 215;
+				for (i = 0; i < 10; i++) {
+
+					CreateWindow(L"Static", L"                 ", SS_SIMPLE | WS_CHILD | WS_VISIBLE,
+						310, y, 60, 18, hwnd, NULL, hg_app, NULL);
+					CreateWindow(L"Static", L"                     ", SS_SIMPLE | WS_CHILD | WS_VISIBLE,
+						372, y, 70, 18, hwnd, NULL, hg_app, NULL);
+					CreateWindow(L"Static", L"                     ", SS_SIMPLE | WS_CHILD | WS_VISIBLE,
+						446, y, 140, 18, hwnd, NULL, hg_app, NULL);
+					CreateWindow(L"Static", L"                      ", SS_SIMPLE | WS_CHILD | WS_VISIBLE,
+						584, y, 80, 18, hwnd, NULL, hg_app, NULL);
+					CreateWindow(L"Static", L"        ", SS_SIMPLE | WS_CHILD | WS_VISIBLE,
+						686, y, 30, 18, hwnd, NULL, hg_app, NULL);
+					y = y + 23;
+
+				}//初始化界面
+				y = 215;
+				for (i = 0; i < 10; 1) {
+				
+					if (stu[page].nianji == nianji1 && stu[page].nianji != 0 && stu[page].code < 100000 && stu[page].code > 10000
+						&& page < 100) {
+						MultiByteToWideChar(CP_ACP, 0, stu[page].name, -1, name2, 15);
+						MultiByteToWideChar(CP_ACP, 0, stu[page].address, -1, address2, 15);
+						MultiByteToWideChar(CP_ACP, 0, stu[page].faculty, -1, faculty2, 15);
+						wsprintfW(code2, L"%d", stu[page].code);
+						wsprintfW(nianji2, L"%d", stu[page].nianji);
+
+						CreateWindow(L"Static", code2, SS_SIMPLE | WS_CHILD | WS_VISIBLE,
+							310, y, 60, 18, hwnd, NULL, hg_app, NULL);
+						CreateWindow(L"Static", name2, SS_SIMPLE | WS_CHILD | WS_VISIBLE,
+							372, y, 70, 18, hwnd, NULL, hg_app, NULL);
+						CreateWindow(L"Static", address2, SS_SIMPLE | WS_CHILD | WS_VISIBLE,
+							446, y, 140, 18, hwnd, NULL, hg_app, NULL);
+						CreateWindow(L"Static", faculty2, SS_SIMPLE | WS_CHILD | WS_VISIBLE,
+							584, y, 80, 18, hwnd, NULL, hg_app, NULL);
+						CreateWindow(L"Static", nianji2, SS_SIMPLE | WS_CHILD | WS_VISIBLE,
+							686, y, 30, 18, hwnd, NULL, hg_app, NULL);
+						y = y + 23;
+						i++;
+						side = i;//side条
+						site = page + 1;//site位
+					}
+					page++;
+					if (page == 100)
+					{
+						break;
+					}
+				}
+			}
+			else if(but == 2 && page >= 0&&page!=100)
+			{
+				y = 215;
+				for (i = 0; i < 10; i++) {
+
+					CreateWindow(L"Static", L"                 ", SS_SIMPLE | WS_CHILD | WS_VISIBLE,
+						310, y, 60, 18, hwnd, NULL, hg_app, NULL);
+					CreateWindow(L"Static", L"                     ", SS_SIMPLE | WS_CHILD | WS_VISIBLE,
+						372, y, 70, 18, hwnd, NULL, hg_app, NULL);
+					CreateWindow(L"Static", L"                     ", SS_SIMPLE | WS_CHILD | WS_VISIBLE,
+						446, y, 140, 18, hwnd, NULL, hg_app, NULL);
+					CreateWindow(L"Static", L"                      ", SS_SIMPLE | WS_CHILD | WS_VISIBLE,
+						584, y, 80, 18, hwnd, NULL, hg_app, NULL);
+					CreateWindow(L"Static", L"        ", SS_SIMPLE | WS_CHILD | WS_VISIBLE,
+						686, y, 30, 18, hwnd, NULL, hg_app, NULL);
+					y = y + 23;
+
+				}//初始化界面
+				y = 215;
+				for (i = 0; i <  10; 1) {
+				
+					if (strcmp(faculty1, stu[page].faculty) == 0 && stu[page].nianji != 0 && stu[page].code < 100000
+						&& stu[page].code > 10000 && page < 100) {
+						MultiByteToWideChar(CP_ACP, 0, stu[page].name, -1, name2, 15);
+						MultiByteToWideChar(CP_ACP, 0, stu[page].address, -1, address2, 15);
+						MultiByteToWideChar(CP_ACP, 0, stu[page].faculty, -1, faculty2, 15);
+						wsprintfW(code2, L"%d", stu[page].code);
+						wsprintfW(nianji2, L"%d", stu[page].nianji);
+
+						CreateWindow(L"Static", code2, SS_SIMPLE | WS_CHILD | WS_VISIBLE,
+							310, y, 60, 18, hwnd, NULL, hg_app, NULL);
+						CreateWindow(L"Static", name2, SS_SIMPLE | WS_CHILD | WS_VISIBLE,
+							372, y, 70, 18, hwnd, NULL, hg_app, NULL);
+						CreateWindow(L"Static", address2, SS_SIMPLE | WS_CHILD | WS_VISIBLE,
+							446, y, 140, 18, hwnd, NULL, hg_app, NULL);
+						CreateWindow(L"Static", faculty2, SS_SIMPLE | WS_CHILD | WS_VISIBLE,
+							584, y, 80, 18, hwnd, NULL, hg_app, NULL);
+						CreateWindow(L"Static", nianji2, SS_SIMPLE | WS_CHILD | WS_VISIBLE,
+							686, y, 30, 18, hwnd, NULL, hg_app, NULL);
+						y = y + 23;
+						i++;
+						side = i;//side条
+						site = page + 1;//site位
+					}
+					page++;
+					if (page == 100)
+					{
+						break;
+					}
+				}
+			}
+			else
+			{
+			break;
+            }
+			break;
+		}
+		case IDB_TEN31:
+		{
+			DestroyWindow(ID_TEN36);
+			DestroyWindow(ID_TEN37);
+			ID_TEN36 = NULL;
+			ID_TEN37 = NULL;
+			ID_TEN36=CreateWindow(L"Edit", L"NEW NAME", WS_VISIBLE | WS_CHILD | BS_PUSHBUTTON,
+				300, 270, 160, 20, hwnd, (HMENU)IDB_TEN36, hg_app, NULL);
+			ID_TEN37 = CreateWindow(L"Button", L"OK", WS_VISIBLE | WS_CHILD | BS_PUSHBUTTON,
+				500, 270, 43, 20, hwnd, (HMENU)IDB_TEN37, hg_app, NULL);
+			break;
+		}
+		case IDB_TEN32:
+		{
+			DestroyWindow(ID_TEN36);
+			DestroyWindow(ID_TEN37);
+			ID_TEN36 = NULL;
+			ID_TEN37 = NULL;
+			ID_TEN36 = CreateWindow(L"Edit", L"NEW ID", WS_VISIBLE | WS_CHILD | BS_PUSHBUTTON,
+				300, 270, 160, 20, hwnd, (HMENU)IDB_TEN38, hg_app, NULL);
+			ID_TEN37 = CreateWindow(L"Button", L"OK", WS_VISIBLE | WS_CHILD | BS_PUSHBUTTON,
+				500, 270, 43, 20, hwnd, (HMENU)IDB_TEN39, hg_app, NULL);
+			break;
+		}
+		case IDB_TEN33:
+		{
+			DestroyWindow(ID_TEN36);
+			DestroyWindow(ID_TEN37);
+			ID_TEN36 = NULL;
+			ID_TEN37 = NULL;
+			ID_TEN36 = CreateWindow(L"Edit", L"NEW PASSWORD", WS_VISIBLE | WS_CHILD | BS_PUSHBUTTON,
+				300, 270, 160, 20, hwnd, (HMENU)IDB_TEN40, hg_app, NULL);
+			ID_TEN37 = CreateWindow(L"Button", L"OK", WS_VISIBLE | WS_CHILD | BS_PUSHBUTTON,
+				500, 270, 43, 20, hwnd, (HMENU)IDB_TEN41, hg_app, NULL);
+			break;
+		}
+		case IDB_TEN34:
+		{
+			DestroyWindow(ID_TEN36);
+			DestroyWindow(ID_TEN37);
+			ID_TEN36 = NULL;
+			ID_TEN37 = NULL;
+			ID_TEN36 = CreateWindow(L"Edit", L"NEW ADDRESS", WS_VISIBLE | WS_CHILD | BS_PUSHBUTTON,
+				300, 270, 160, 20, hwnd, (HMENU)IDB_TEN42, hg_app, NULL);
+			ID_TEN37 = CreateWindow(L"Button", L"OK", WS_VISIBLE | WS_CHILD | BS_PUSHBUTTON,
+				500, 270, 43, 20, hwnd, (HMENU)IDB_TEN43, hg_app, NULL);
+			break;
+		}
+
+
+		case IDB_TEN43:
+		{
+			
+				for (i = 0; i < 100; i++) {
+					if (stu[i].code == code1)
+					{
+						GetWindowText(GetDlgItem(hwnd, 3352), wp, 20);
+						WideCharToMultiByte(CP_ACP, 0, wp, -1, address1, 20, NULL, NULL);
+						strcpy_s(stu[i].address, address1);
+						CreateWindow(L"Static", L"                 ", SS_SIMPLE | WS_CHILD | WS_VISIBLE,
+							310, 360, 60, 18, hwnd, NULL, hg_app, NULL);
+						CreateWindow(L"Static", L"                     ", SS_SIMPLE | WS_CHILD | WS_VISIBLE,
+							372, 360, 70, 18, hwnd, NULL, hg_app, NULL);
+						CreateWindow(L"Static", L"                     ", SS_SIMPLE | WS_CHILD | WS_VISIBLE,
+							446, 360, 140, 18, hwnd, NULL, hg_app, NULL);
+						CreateWindow(L"Static", L"                      ", SS_SIMPLE | WS_CHILD | WS_VISIBLE,
+							584, 360, 80, 18, hwnd, NULL, hg_app, NULL);
+						CreateWindow(L"Static", L"        ", SS_SIMPLE | WS_CHILD | WS_VISIBLE,
+							686, 360, 30, 18, hwnd, NULL, hg_app, NULL);
+						CreateWindow(L"Static", code2, SS_SIMPLE | WS_CHILD | WS_VISIBLE,
+							310, 360, 60, 18, hwnd, NULL, hg_app, NULL);
+						CreateWindow(L"Static", name2, SS_SIMPLE | WS_CHILD | WS_VISIBLE,
+							372, 360, 70, 18, hwnd, NULL, hg_app, NULL);
+						CreateWindow(L"Static", wp, SS_SIMPLE | WS_CHILD | WS_VISIBLE,
+							446, 360, 140, 18, hwnd, NULL, hg_app, NULL);
+						CreateWindow(L"Static", faculty2, SS_SIMPLE | WS_CHILD | WS_VISIBLE,
+							584, 360, 80, 18, hwnd, NULL, hg_app, NULL);
+						CreateWindow(L"Static", nianji2, SS_SIMPLE | WS_CHILD | WS_VISIBLE,
+							686, 360, 30, 18, hwnd, NULL, hg_app, NULL);
+						MessageBox(hwnd, L"SUCCESSFUL REVISION!", L"WIN", MB_OK | MB_ICONINFORMATION);
+						break;
+					}
+				}
+				DestroyWindow(ID_TEN36);
+				DestroyWindow(ID_TEN37);
+				ID_TEN36 = NULL;
+				ID_TEN37 = NULL;
+				break;
+		}
+		case IDB_TEN41:
+		{
+			for (i = 0; i < 100; i++) {
+				if (stu[i].code == code1)
+				{
+					GetWindowText(GetDlgItem(hwnd, 3350), wp, 11);
+					pass1 = _wtoi(wp);
+					stu[i].pass = pass1;
+					MessageBox(hwnd, L"SUCCESSFUL REVISION!", L"WIN", MB_OK | MB_ICONINFORMATION);
+					break;
+				}
+			}
+			DestroyWindow(ID_TEN36);
+			DestroyWindow(ID_TEN37);
+			ID_TEN36 = NULL;
+			ID_TEN37 = NULL;
+			break;
+		}
+		case IDB_TEN39:
+		{
+			for (i = 0; i < 100; i++) {
+				if (stu[i].code == code1)
+				{
+					GetWindowText(GetDlgItem(hwnd, 3348), wp, 11);
+					code1 = _wtoi(wp);
+					stu[i].code = code1;
+					CreateWindow(L"Static", L"                 ", SS_SIMPLE | WS_CHILD | WS_VISIBLE,
+						310, 360, 60, 18, hwnd, NULL, hg_app, NULL);
+					CreateWindow(L"Static", L"                     ", SS_SIMPLE | WS_CHILD | WS_VISIBLE,
+						372, 360, 70, 18, hwnd, NULL, hg_app, NULL);
+					CreateWindow(L"Static", L"                     ", SS_SIMPLE | WS_CHILD | WS_VISIBLE,
+						446, 360, 140, 18, hwnd, NULL, hg_app, NULL);
+					CreateWindow(L"Static", L"                      ", SS_SIMPLE | WS_CHILD | WS_VISIBLE,
+						584, 360, 80, 18, hwnd, NULL, hg_app, NULL);
+					CreateWindow(L"Static", L"        ", SS_SIMPLE | WS_CHILD | WS_VISIBLE,
+						686, 360, 30, 18, hwnd, NULL, hg_app, NULL);
+					CreateWindow(L"Static", wp, SS_SIMPLE | WS_CHILD | WS_VISIBLE,
+						310, 360, 60, 18, hwnd, NULL, hg_app, NULL);
+					CreateWindow(L"Static", name2, SS_SIMPLE | WS_CHILD | WS_VISIBLE,
+						372, 360, 70, 18, hwnd, NULL, hg_app, NULL);
+					CreateWindow(L"Static", address2, SS_SIMPLE | WS_CHILD | WS_VISIBLE,
+						446, 360, 140, 18, hwnd, NULL, hg_app, NULL);
+					CreateWindow(L"Static", faculty2, SS_SIMPLE | WS_CHILD | WS_VISIBLE,
+						584, 360, 80, 18, hwnd, NULL, hg_app, NULL);
+					CreateWindow(L"Static", nianji2, SS_SIMPLE | WS_CHILD | WS_VISIBLE,
+						686, 360, 30, 18, hwnd, NULL, hg_app, NULL);
+					MessageBox(hwnd, L"SUCCESSFUL REVISION!", L"WIN", MB_OK | MB_ICONINFORMATION);
+					break;
+				}
+			}
+			DestroyWindow(ID_TEN36);
+			DestroyWindow(ID_TEN37);
+			ID_TEN36 = NULL;
+			ID_TEN37 = NULL;
+			break;
+		}
+		case IDB_TEN37:
+		{
+			for (i = 0; i < 100; i++) {
+				if (stu[i].code == code1)
+				{
+					GetWindowText(GetDlgItem(hwnd, 3346), wp, 11);
+					WideCharToMultiByte(CP_ACP, 0, wp, -1, name1, 11, NULL, NULL);
+					strcpy_s(stu[i].name, name1);
+					CreateWindow(L"Static", L"                 ", SS_SIMPLE | WS_CHILD | WS_VISIBLE,
+						310, 360, 60, 18, hwnd, NULL, hg_app, NULL);
+					CreateWindow(L"Static", L"                     ", SS_SIMPLE | WS_CHILD | WS_VISIBLE,
+						372, 360, 70, 18, hwnd, NULL, hg_app, NULL);
+					CreateWindow(L"Static", L"                     ", SS_SIMPLE | WS_CHILD | WS_VISIBLE,
+						446, 360, 140, 18, hwnd, NULL, hg_app, NULL);
+					CreateWindow(L"Static", L"                      ", SS_SIMPLE | WS_CHILD | WS_VISIBLE,
+						584, 360, 80, 18, hwnd, NULL, hg_app, NULL);
+					CreateWindow(L"Static", L"        ", SS_SIMPLE | WS_CHILD | WS_VISIBLE,
+						686, 360, 30, 18, hwnd, NULL, hg_app, NULL);
+					CreateWindow(L"Static", code2, SS_SIMPLE | WS_CHILD | WS_VISIBLE,
+						310, 360, 60, 18, hwnd, NULL, hg_app, NULL);
+					CreateWindow(L"Static", wp, SS_SIMPLE | WS_CHILD | WS_VISIBLE,
+						372, 360, 70, 18, hwnd, NULL, hg_app, NULL);
+					CreateWindow(L"Static", address2, SS_SIMPLE | WS_CHILD | WS_VISIBLE,
+						446, 360, 140, 18, hwnd, NULL, hg_app, NULL);
+					CreateWindow(L"Static", faculty2, SS_SIMPLE | WS_CHILD | WS_VISIBLE,
+						584, 360, 80, 18, hwnd, NULL, hg_app, NULL);
+					CreateWindow(L"Static", nianji2, SS_SIMPLE | WS_CHILD | WS_VISIBLE,
+						686, 360, 30, 18, hwnd, NULL, hg_app, NULL);
+					MessageBox(hwnd, L"SUCCESSFUL REVISION!", L"WIN", MB_OK | MB_ICONINFORMATION);
+					break;
+				}
+			}
+			DestroyWindow(ID_TEN36);
+			DestroyWindow(ID_TEN37);
+			ID_TEN36 = NULL;
+			ID_TEN37 = NULL;
+			break;
+		}
+		case IDB_TEN23:
+		{
+			WNDCLASSEX wq = { };
+			wq.cbSize = sizeof(WNDCLASSEX);
+			wq.hbrBackground = (HBRUSH)COLOR_WINDOW;
+			wq.hInstance = hg_app;
+			wq.lpfnWndProc = (WNDPROC)cw;
+			wq.lpszClassName = lkl;
+			wq.style = CS_HREDRAW | CS_VREDRAW;
+			RegisterClassEx(&wq);
+			HWND hcnd = Createcq(lkl, L"window");
+			CreateWindow(lkl, L"WIN",
+				WS_OVERLAPPEDWINDOW, 340, 300, 300, 200,
+				hcnd, NULL, hg_app, NULL);
+			Display(hcnd);
+			Message();
+			return 0;
+			break;
+		}
+		
+		}
+	}
+	default:
+		return DefWindowProc(hwnd, msg, wParam, lParam);
+		return 0;
+	}
+}
+LRESULT CALLBACK name(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
+{
+	switch (msg)
+	{
+	case WM_DESTROY:
+		PostQuitMessage(0);
+		return 0;
+	case WM_CREATE:
+	{
+		CreateWindow(L"Edit", L"NEW NAME", WS_VISIBLE | WS_CHILD | BS_PUSHBUTTON,
+			40, 30, 160, 20, hwnd, (HMENU)IDB_TEN36, hg_app, NULL);
+		CreateWindow(L"Button", L"OK", WS_VISIBLE | WS_CHILD | BS_PUSHBUTTON,
+			220, 30, 43, 20, hwnd, (HMENU)IDB_TEN37, hg_app, NULL);
+		return 0;
+		break;
+	}
+	case WM_COMMAND:
+	{
+		switch (LOWORD(wParam))
+		{
+		case IDB_TEN4:
+		{
+			for (i = 0; i < 100; i++) {
+				if (stu[i].code == code1)
+				{
+					GetWindowText(GetDlgItem(hwnd, 3346), wp, 11);
+					WideCharToMultiByte(CP_ACP, 0, wp, -1, name1, 11, NULL, NULL);
+					strcpy_s(stu[i].name, name1);
+					break;
+				}
+			}
+			MessageBox(hwnd, L"SUCCESSFUL DELETION", L"WIN", MB_OK | MB_ICONINFORMATION);
+			break;
+		}
+		}
+	}
+	default:
+		return DefWindowProc(hwnd, msg, wParam, lParam);
+	}
+	return 0;
+}
+
+LRESULT CALLBACK cw(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
+{
+	switch (msg)
+	{
+	case WM_DESTROY:
+		void save();
+		PostQuitMessage(0);
+		return 0;
+	case WM_CREATE:
+		CreateWindow(L"Edit", L"ID(TEACHER:SIX STUDENT:FIVE)", WS_VISIBLE | WS_CHILD | BS_PUSHBUTTON,
+			40, 10, 200, 20, hwnd, (HMENU)IDB_TEN24, hg_app, NULL);
+		CreateWindow(L"Edit", L"PASSWORD", WS_VISIBLE | WS_CHILD | BS_PUSHBUTTON,
+			40, 50, 200, 20, hwnd, (HMENU)IDB_TEN25, hg_app, NULL);
+		CreateWindow(L"Edit", L"NAME", WS_VISIBLE | WS_CHILD | BS_PUSHBUTTON,
+			40, 170, 200, 20, hwnd, (HMENU)IDB_TEN26, hg_app, NULL);
+		CreateWindow(L"Edit", L"ADDRESS", WS_VISIBLE | WS_CHILD | BS_PUSHBUTTON,
+			40, 130, 200, 20, hwnd, (HMENU)IDB_TEN27, hg_app, NULL);
+		CreateWindow(L"Edit", L"CLASS", WS_VISIBLE | WS_CHILD | BS_PUSHBUTTON,
+			40, 90, 200, 20, hwnd, (HMENU)IDB_TEN28, hg_app, NULL); 
+		CreateWindow(L"Edit", L"FACULTY", WS_VISIBLE | WS_CHILD | BS_PUSHBUTTON,
+			40, 210, 200, 20, hwnd, (HMENU)IDB_TEN29, hg_app, NULL);
+		CreateWindow(L"Button", L"OK", WS_VISIBLE | WS_CHILD | BS_PUSHBUTTON,
+			220, 250, 43, 20, hwnd, (HMENU)IDB_TEN30, hg_app, NULL);
+		return 0;
+	case WM_COMMAND:
+		switch (LOWORD(wParam))
+		{
+		case IDB_TEN30:
+		{
+			GetWindowText(GetDlgItem(hwnd, 3334), wp, 15);
+			code1 = _wtoi(wp);
+			GetWindowText(GetDlgItem(hwnd, 3336), wp, 11);
+			WideCharToMultiByte(CP_ACP, 0, wp, -1, name1, 11, NULL, NULL);
+			GetWindowText(GetDlgItem(hwnd, 3337), wp, 15);
+			WideCharToMultiByte(CP_ACP, 0, wp, -1, address1, 15, NULL, NULL);
+			GetWindowText(GetDlgItem(hwnd, 3338), wp, 4);
+			nianji1 = _wtoi(wp);
+			GetWindowText(GetDlgItem(hwnd, 3339), wp, 15);
+			WideCharToMultiByte(CP_ACP, 0, wp, -1, faculty1, 15, NULL, NULL);
+			GetWindowText(GetDlgItem(hwnd, 3335), wp, 15);
+			pass1 = _wtoi(wp);
+			for (i = 0; i < 100; i++) {
+				if (i == 99 && stu[99].code >= 10000)
+				{
+					MessageBox(hwnd, L"MEMBERSHIP IF FULL!", L"WARNNING", MB_OK | MB_ICONINFORMATION);
+				}
+				else if (stu[i].code == code1)
+				{
+					MessageBox(hwnd, L"REPETITION OF ID！", L"WARNNING", MB_OK | MB_ICONINFORMATION);
+					break;
+				}
+				else if (code1 < 10000 || code1 >= 1000000)
+				{
+					MessageBox(hwnd, L"ID FORMAT ERROR！", L"WARNNING", MB_OK | MB_ICONINFORMATION);
+					break;
+				}
+				else if (pass1<10000||pass1>1000000)
+				{
+					MessageBox(hwnd, L"PASSWORD(FIVE TO SIX)！", L"WARNNING", MB_OK | MB_ICONINFORMATION);
+					break;
+				}
+				else if (nianji1 <= 0||nianji1>=10)
+				{
+					MessageBox(hwnd, L"CLASS(1 ~ 10)！", L"WARNNING", MB_OK | MB_ICONINFORMATION);
+					break;
+				}
+				else if (stu[i].code == 1111 || stu[i].code == 0) {
+					stu[i].code = code1;
+					strcpy_s(stu[i].name, name1);
+					strcpy_s(stu[i].address, address1);
+					stu[i].nianji = nianji1;
+					stu[i].pass = pass1;
+					strcpy_s(stu[i].faculty, faculty1);
+					MessageBox(hwnd, L"LOGIN WAS SUCCESSFUL!", L"WARNNING", MB_OK | MB_ICONINFORMATION);
+					break;
+				}
+			}
+			break;
+		}
+		}
+		return 0;
+	default:
+		return DefWindowProc(hwnd, msg, wParam, lParam);
+	}
+	return 0;
+}
+
+
+
+
+
+LRESULT CALLBACK chuang(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
+{
+	switch (msg)
+	{
+	case WM_DESTROY:
+		void save();
+		PostQuitMessage(0);
+		return 0;
+	case WM_CREATE:
+		CreateWindow(L"Edit", L"STUDENT ID(FIVE)", WS_VISIBLE | WS_CHILD | BS_PUSHBUTTON,
+			40, 10, 160, 20, hwnd, (HMENU)IDB_SIX, hg_app, NULL);
+		CreateWindow(L"Edit", L"NAME", WS_VISIBLE | WS_CHILD | BS_PUSHBUTTON,
+			40, 50, 160, 20, hwnd, (HMENU)IDB_EIGHT, hg_app, NULL);
+		CreateWindow(L"Edit", L"ADDRESS", WS_VISIBLE | WS_CHILD | BS_PUSHBUTTON,
+			40, 90, 160, 20, hwnd, (HMENU)IDB_NINE, hg_app, NULL);
+		CreateWindow(L"Edit", L"CLASS", WS_VISIBLE | WS_CHILD | BS_PUSHBUTTON,
+			40, 130, 160, 20, hwnd, (HMENU)IDB_TEN, hg_app, NULL);
+		CreateWindow(L"Edit", L"FACULTY", WS_VISIBLE | WS_CHILD | BS_PUSHBUTTON,
+			40, 170, 160, 20, hwnd, (HMENU)IDB_TEN1, hg_app, NULL);
+		CreateWindow(L"Button", L"OK", WS_VISIBLE | WS_CHILD | BS_PUSHBUTTON,
+			220, 213, 43, 20, hwnd, (HMENU)IDB_TEN2, hg_app, NULL);
+		return 0;
+	case WM_COMMAND:
+		switch (LOWORD(wParam))
+		{
+		case IDB_TEN2:
+		{
+			GetWindowText(GetDlgItem(hwnd, 3306), wp, 6);
+			code1 = _wtoi(wp);
+			GetWindowText(GetDlgItem(hwnd, 3308), wp, 11);
+			WideCharToMultiByte(CP_ACP, 0, wp, -1, name1, 11, NULL, NULL);
+			GetWindowText(GetDlgItem(hwnd, 3309), wp, 15);
+			WideCharToMultiByte(CP_ACP, 0, wp, -1, address1, 15, NULL, NULL);
+			GetWindowText(GetDlgItem(hwnd, 3310), wp, 2);
+			nianji1 = _wtoi(wp);
+			GetWindowText(GetDlgItem(hwnd, 3311), wp, 15);
+			WideCharToMultiByte(CP_ACP, 0, wp, -1, faculty1, 15, NULL, NULL);
+			for (i = 0; i < 100; i++) {
+				if (i == 99 && stu[99].code !=1111)
+				{
+					MessageBox(hwnd, L"MEMBERSHIP IF FULL!", L"WARNNING", MB_OK | MB_ICONINFORMATION);
+					break;
+				}
+				else if (stu[i].code == code1)
+				{
+					MessageBox(hwnd, L"REPETITION OF ID！", L"WARNNING", MB_OK | MB_ICONINFORMATION);
+					break;
+				}
+				else if (code1 < 10000 || code1 >= 1000000)
+				{
+					MessageBox(hwnd, L"ID FORMAT ERROR！", L"WARNNING", MB_OK | MB_ICONINFORMATION);
+					break;
+				}
+				else if (pass1 < 10000 || pass1>1000000)
+				{
+					MessageBox(hwnd, L"PASSWORD(FIVE TO SIX)！", L"WARNNING", MB_OK | MB_ICONINFORMATION);
+					break;
+				}
+				else if (nianji1 <= 0 || nianji1 >= 10)
+				{
+					MessageBox(hwnd, L"CLASS(1 ~ 10)！", L"WARNNING", MB_OK | MB_ICONINFORMATION);
+					break;
+				}
+				else if (stu[i].code == 1111) {
+					stu[i].code = stu[i].pass=code1;
+					strcpy_s(stu[i].name, name1);
+					strcpy_s(stu[i].address, address1);
+					stu[i].nianji = nianji1;
+					strcpy_s(stu[i].faculty, faculty1);
+					MessageBox(hwnd, L"LOGIN WAS SUCCESSFUL!", L"WARNNING", MB_OK | MB_ICONINFORMATION);
+					break;
+				}
+			}
+			break;
+		}
+		}
+		return 0;
+	default:
+		return DefWindowProc(hwnd, msg, wParam, lParam);
+	}
+	return 0;
+}
+
+
+
+
+LRESULT CALLBACK er(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
+{
+	switch (msg)
+	{
+	case WM_DESTROY:
+		PostQuitMessage(0);
+		return 0;
+	case WM_CREATE:
+	{
+		CreateWindow(L"Edit", L"ID", WS_VISIBLE | WS_CHILD | BS_PUSHBUTTON,
+			40, 30, 160, 20, hwnd, (HMENU)IDB_TEN3, hg_app, NULL);
+		CreateWindow(L"Button", L"OK", WS_VISIBLE | WS_CHILD | BS_PUSHBUTTON,
+			220, 30, 43, 20, hwnd, (HMENU)IDB_TEN4, hg_app, NULL);
+		return 0;
+		break;
+	}
+	case WM_COMMAND:
+	{
+		switch (LOWORD(wParam))
+		{
+		case IDB_TEN4:
+		{
+			GetWindowText(GetDlgItem(hwnd, 3313), wp, 6);
+			code1 = _wtoi(wp);
+			for (i = 0; i < 100; i++) {
+				if (i == 99 && stu[99].code != code1)
+				{
+					MessageBox(hwnd, L"NO ONE FOUND THIS PERSON！", L"WARNNING", MB_OK | MB_ICONINFORMATION);
+					break;
+				}
+				else if (stu[i].code == code1)
+				{
+					stu[i].code = 0;
+					stu[i].nianji = 0;
+					MessageBox(hwnd, L"SUCCESSFUL DELETION！", L"WARNNING", MB_OK | MB_ICONINFORMATION);
+					break;
+				}
+			}
+			break;
+		}
+		}
+	}
+	default:
+		return DefWindowProc(hwnd, msg, wParam, lParam);
+	}
+	return 0;
+}
+
+
+LRESULT CALLBACK ok(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
+{
+	switch (msg)
+	{
+	case WM_DESTROY:
+		PostQuitMessage(0);
+		return 0;
+	case WM_CREATE:
+	{
+		CreateWindow(L"Edit", L" SUTDENT ID", WS_VISIBLE | WS_CHILD | BS_PUSHBUTTON,
+			20, 25, 270, 20, hwnd, (HMENU)IDB_TEN5, hg_app, NULL);
+		CreateWindow(L"Button", L"OK", WS_VISIBLE | WS_CHILD | BS_PUSHBUTTON | WS_GROUP,
+			220, 175, 55, 29, hwnd, (HMENU)IDB_TEN6, hg_app, NULL);
+
+		CreateWindow(L"Button", L"ID", WS_CHILD | WS_VISIBLE | BS_AUTORADIOBUTTON,
+			20, 65, 60, 16, hwnd, (HMENU)IDB_TEN7, hg_app, NULL);
+		CreateWindow(L"Button", L"NAME", WS_CHILD | WS_VISIBLE | BS_AUTORADIOBUTTON,
+			100, 65, 60, 16, hwnd, (HMENU)IDB_TEN8, hg_app, NULL);
+		CreateWindow(L"Button", L"CLASS", WS_CHILD | WS_VISIBLE | BS_AUTORADIOBUTTON,
+			180, 65, 60, 16, hwnd, (HMENU)IDB_TEN9, hg_app, NULL);
+		CreateWindow(L"Button", L"FACULTY", WS_CHILD | WS_VISIBLE | BS_AUTORADIOBUTTON,
+			260, 65, 60, 16, hwnd, (HMENU)IDB_TEN10, hg_app, NULL);
+		CreateWindow(L"Button", L"ADDRESS", WS_CHILD | WS_VISIBLE | BS_AUTORADIOBUTTON,
+			340, 65, 60, 16, hwnd, (HMENU)IDB_TEN11, hg_app, NULL);
+		CreateWindow(L"Edit", L"MODIFIES CONTENTS", WS_VISIBLE | WS_CHILD | BS_PUSHBUTTON,
+			20, 100, 280, 60, hwnd, (HMENU)IDB_TEN12, hg_app, NULL);
+		return 0;
+		break;
+	}
+	case WM_COMMAND:
+	{
+		switch (LOWORD(wParam))
+		{
+		case IDB_TEN6:
+		{
+			if (IsDlgButtonChecked(hwnd, IDB_TEN7) == BST_CHECKED) {
+				GetWindowText(GetDlgItem(hwnd, 3315), wp, 7);
+				code1 = _wtoi(wp);
+				for (i = 0; i < 100; i++) {
+					if (i == 99 && stu[i].code != code1)
+					{
+						MessageBox(hwnd, L"NO ONE FOUND THIS PERSON！", L"WARNNING", MB_OK | MB_ICONINFORMATION);
+						break;
+					}
+					else if (stu[i].code == code1)
+					{
+						GetWindowText(GetDlgItem(hwnd, 3322), wp, 6);
+						stu[i].code = _wtoi(wp);
+						MessageBox(hwnd, L"SUCCESSFUL REVISION", L"WARNNING", MB_OK | MB_ICONINFORMATION);
+						break;
+					}
+				}
+				break;
+			}
+			else if (IsDlgButtonChecked(hwnd, IDB_TEN8) == BST_CHECKED) {
+				GetWindowText(GetDlgItem(hwnd, 3315), wp, 11);
+				code1 = _wtoi(wp);
+				for (i = 0; i < 100; i++) {
+					if (i == 99 && stu[i].code != code1)
+					{
+						MessageBox(hwnd, L"NO ONE FOUND THIS PERSON！", L"WARNNING", MB_OK | MB_ICONINFORMATION);
+						break;
+					}
+					else if (stu[i].code == code1)
+					{
+						GetWindowText(GetDlgItem(hwnd, 3322), wp, 11);
+						WideCharToMultiByte(CP_ACP, 0, wp, -1, name1, 11, NULL, NULL);
+						strcpy_s(stu[i].name, name1);
+						MessageBox(hwnd, L"SUCCESSFUL REVISION", L"WARNNING", MB_OK | MB_ICONINFORMATION);
+						break;
+					}
+				}
+				break;
+			}
+			else if (IsDlgButtonChecked(hwnd, IDB_TEN9) == BST_CHECKED) {
+				GetWindowText(GetDlgItem(hwnd, 3315), wp, 11);
+				code1 = _wtoi(wp);
+				for (i = 0; i < 100; i++) {
+					if (i == 99 && stu[i].code != code1)
+					{
+						MessageBox(hwnd, L"NO ONE FOUND THIS PERSON！", L"WARNNING", MB_OK | MB_ICONINFORMATION);
+						break;
+					}
+					else if (stu[i].code == code1)
+					{
+						GetWindowText(GetDlgItem(hwnd, 3322), wp, 6);
+						stu[i].nianji = _wtoi(wp);
+						MessageBox(hwnd, L"SUCCESSFUL REVISION", L"WARNNING", MB_OK | MB_ICONINFORMATION);
+						break;
+					}
+				}
+				break;
+			}
+			else if (IsDlgButtonChecked(hwnd, IDB_TEN10) == BST_CHECKED) {
+				GetWindowText(GetDlgItem(hwnd, 3315), wp, 11);
+				code1 = _wtoi(wp);
+				for (i = 0; i < 100; i++) {
+					if (i == 99 && stu[i].code != code1)
+					{
+						MessageBox(hwnd, L"NO ONE FOUND THIS PERSON！", L"WARNNING", MB_OK | MB_ICONINFORMATION);
+						break;
+					}
+					else if (stu[i].code == code1)
+					{
+						GetWindowText(GetDlgItem(hwnd, 3322), wp, 11);
+						WideCharToMultiByte(CP_ACP, 0, wp, -1, faculty1, 15, NULL, NULL);
+						strcpy_s(stu[i].faculty, faculty1);
+						MessageBox(hwnd, L"SUCCESSFUL REVISION", L"WARNNING", MB_OK | MB_ICONINFORMATION);
+						break;
+					}
+				}
+				break;
+			}
+			else if (IsDlgButtonChecked(hwnd, IDB_TEN11) == BST_CHECKED) {
+				GetWindowText(GetDlgItem(hwnd, 3315), wp, 11);
+				code1 = _wtoi(wp);
+				for (i = 0; i < 100; i++) {
+					if (i == 99 && stu[i].code != code1)
+					{
+						MessageBox(hwnd, L"NO ONE FOUND THIS PERSON！", L"WARNNING", MB_OK | MB_ICONINFORMATION);
+						break;
+					}
+					else if (stu[i].code == code1)
+					{
+						GetWindowText(GetDlgItem(hwnd, 3322), wp, 11);
+						WideCharToMultiByte(CP_ACP, 0, wp, -1, address1, 15, NULL, NULL);
+						strcpy_s(stu[i].address, address1);
+						MessageBox(hwnd, L"SUCCESSFUL REVISION", L"WARNNING", MB_OK | MB_ICONINFORMATION);
+						break;
+					}
+				}
+				break;
+			}
+		}
+		}
+	}
+	default:
+		return DefWindowProc(hwnd, msg, wParam, lParam);
+	}
+}
+
+
+
+//自定义窗口
+HWND CreateMain(LPCWSTR lpClassName, LPCWSTR lpWndName)
+{
+	HWND hWnd = CreateWindowEx(0, lpClassName, lpWndName,
+		WS_OVERLAPPEDWINDOW, 300, 200, 300, 300, NULL, NULL, hg_app, NULL);
+	return hWnd;
+}
+HWND Createch(LPCWSTR lpClassName, LPCWSTR lpWndName)
+{
+	HWND hWnd = CreateWindowEx(0, lpClassName, lpWndName,
+		WS_OVERLAPPEDWINDOW, 500, 500, 340, 120, NULL, NULL, hg_app, NULL);
+	return hWnd;
+}
+HWND Createcq(LPCWSTR lpClassName, LPCWSTR lpWndName)
+{
+	HWND hWnd = CreateWindowEx(0, lpClassName, lpWndName,
+		WS_OVERLAPPEDWINDOW, 500, 500, 340, 340, NULL, NULL, hg_app, NULL);
+	return hWnd;
+}
+HWND Createc(LPCWSTR lpClassName, LPCWSTR lpWndName)
+{
+	HWND hWnd = CreateWindowEx(0, lpClassName, lpWndName,
+		WS_OVERLAPPEDWINDOW, 500, 500, 500, 255, NULL, NULL, hg_app, NULL);
+	return hWnd;
+}
+
+
+
+//显示窗口
+void Display(HWND hWnd)
+{
+	ShowWindow(hWnd, SW_SHOW);
+	UpdateWindow(hWnd);
+}
+//消息循环
+void Message()
+{
+	MSG nMsg = {  };
+	while (GetMessage(&nMsg, NULL, 0, 0))
+	{
+		TranslateMessage(&nMsg);
+		DispatchMessage(&nMsg);
+	}
+}
+
+/*
+void get()
+{
+	FILE* fp;
+	int i = 0;
+	fp = fopen("data2.txt", "r");
+	for (i = 0; i < 50; i++)
+	{
+		fscanf(fp, "%s%s%s%d%d", stu[i].name, stu[i].address, stu[i].faculty, &stu[i].nianji, &stu[i].code);
+	}
+	fclose(fp);
+}
+
+void save()
+{
+	FILE* p;
+	int i = 0;
+	p = fopen("data2.txt", "w");
+	for (i = 0; i < 50; i++)
+	{
+		fprintf(p, "%s\n%s\n%s\n%d\n%d\n", stu[i].name, stu[i].address, stu[i].faculty, stu[i].nianji, stu[i].code);
+	}
+	fclose(p);//程序结束自动更新储存数据
+}
+
+*/
